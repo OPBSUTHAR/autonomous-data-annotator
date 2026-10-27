@@ -2,8 +2,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
-import { nanoid } from "nanoid";
-
 export default function Home() {
   const qc = useQueryClient();
   const { data } = useQuery({ queryKey: ["projects"], queryFn: async () => fetch("/api/projects").then((r) => r.json()) });

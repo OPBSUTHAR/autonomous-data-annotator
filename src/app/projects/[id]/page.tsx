@@ -157,12 +157,12 @@ function AnnotatorView({ file, annotations, job, onReprocess }: { file: FileRow;
       {job && job.status === "failed" && <div className="mb-4 text-red-400 text-sm">Error: {job.error}</div>}
 
       {file.type === "image" && <ImageView file={file} annotations={annotations} />}
-      {file.type === "text" && <TextView file={file} annotations={annotations} />}
+      {file.type === "text" && <TextView annotations={annotations} />}
       {file.type === "tabular" && <TabularView annotations={annotations} />}
       {file.type === "code" && <CodeView annotations={annotations} />}
       {(file.type === "document" || file.type === "audio" || file.type === "video" || file.type === "unknown") && <GenericView file={file} annotations={annotations} />}
 
-      <AnnotationList file={file} annotations={annotations} />
+      <AnnotationList annotations={annotations} />
     </div>
   );
 }
@@ -192,6 +192,7 @@ function ImageView({ file, annotations }: { file: FileRow; annotations: Ann[] })
   return (
     <div className="mb-4">
       <div className="relative inline-block max-w-full">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={`/api/files/${file.id}/content`} alt={file.name} className="max-h-[50vh] rounded-lg" />
         {boxes.map((b) => {
           const d = b.data as any;
@@ -213,7 +214,7 @@ function ImageView({ file, annotations }: { file: FileRow; annotations: Ann[] })
   );
 }
 
-function TextView({ file, annotations }: { file: FileRow; annotations: Ann[] }) {
+function TextView({ annotations }: { annotations: Ann[] }) {
   const sentiment = annotations.find((a) => a.kind === "sentiment");
   const keywords = annotations.find((a) => a.kind === "keywords");
   const entities = annotations.filter((a) => a.kind === "entity");
@@ -289,7 +290,7 @@ function GenericView({ file, annotations }: { file: FileRow; annotations: Ann[] 
   );
 }
 
-function AnnotationList({ file, annotations }: { file: FileRow; annotations: Ann[] }) {
+function AnnotationList({ annotations }: { annotations: Ann[] }) {
   return (
     <details className="mt-4">
       <summary className="cursor-pointer text-sm text-zinc-400">Raw annotations ({annotations.length})</summary>

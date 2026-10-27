@@ -8,13 +8,12 @@ import { annotateDocument } from "./document";
 import { annotateAudio, annotateVideo } from "./media";
 import { annotateUnknown } from "./unknown";
 import type { AnnotatorContext, AnnotatorResult } from "./types";
-import { files, annotations, jobs, projects } from "../db";
+import { files, annotations, jobs } from "../db";
 import { emit } from "../events";
 
 export async function processFile(fileId: string) {
   const file = files.get(fileId);
   if (!file) return;
-  const project = projects.get(file.projectId);
   const job = jobs.getByFile(fileId);
   const jobId = job?.id ?? nanoid();
   if (!job) jobs.create({ id: jobId, fileId });
@@ -54,7 +53,7 @@ export async function processFile(fileId: string) {
       case "document": result = await annotateDocument(ctx); break;
       case "audio": result = await annotateAudio(ctx); break;
       case "video": result = await annotateVideo(ctx); break;
-      default: result = await annotateUnknown(ctx); break;
+      default: result = await annotateUnknown(); break;
     }
 
     files.update(fileId, { type: result.fileKind });

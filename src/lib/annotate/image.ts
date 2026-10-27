@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import type { AnnotatorContext, AnnotatorResult, Annotation } from "./types";
 
-function dimensions(buf: Buffer, mime: string): { width: number; height: number } | null {
+function dimensions(buf: Buffer): { width: number; height: number } | null {
   // PNG
   if (buf.length > 24 && buf[0] === 0x89 && buf[1] === 0x50) {
     return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
@@ -38,7 +38,7 @@ function inferLabels(name: string): string[] {
 
 export async function annotateImage(ctx: AnnotatorContext): Promise<AnnotatorResult> {
   ctx.onProgress?.("detecting image metadata", 10);
-  const dims = dimensions(ctx.buffer, ctx.file.mimeType);
+  const dims = dimensions(ctx.buffer);
   ctx.onProgress?.("inferring labels", 40);
   const labels = inferLabels(ctx.file.name);
   const annotations: Annotation[] = [];

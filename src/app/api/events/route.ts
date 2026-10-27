@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { subscribeAll } from "@/lib/events";
 
 export const runtime = "nodejs";

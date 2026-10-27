@@ -1,5 +1,8 @@
 # Autonomous Data Annotator
 
+**Live demo:** https://autonomous-data-annotator.vercel.app  
+**Repository:** https://github.com/OPBSUTHAR/autonomous-data-annotator
+
 A reactive, full-stack web application that **automatically annotates any file** you throw at it. Upload
 images, text, CSV/TSV/JSONL tables, source code, documents, audio, or video and get structured, editable
 annotations in seconds. Real-time progress is pushed to the UI over Server-Sent Events.
@@ -13,6 +16,7 @@ Built by **Omprakash Suthar (@OPBSUTHAR)**.
 - **Reactive UI**: TanStack Query + SSE for live job progress and instant annotation updates.
 - **Human-in-the-loop**: review, edit, delete, and add annotations manually.
 - **Export anywhere**: JSON, JSONL, CSV, COCO, YOLO formats for direct ML training.
+- **Live deployment**: https://autonomous-data-annotator.vercel.app
 - **Pluggable AI providers**: optional `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` for richer labeling (heuristics work offline).
 
 ## Tech stack
@@ -20,7 +24,7 @@ Built by **Omprakash Suthar (@OPBSUTHAR)**.
 - Next.js 16 (App Router) + React 19 + TypeScript
 - Tailwind CSS 4
 - TanStack Query
-- SQLite via Node 24 `node:sqlite` (`data/dev.db`, no native deps)
+- SQLite via Node 24 `node:sqlite` (`data/dev.db`, no native deps) — ephemeral `/tmp` on Vercel
 - Server-Sent Events for realtime
 
 ## Quick start
@@ -59,6 +63,10 @@ src/
 
 Add a module under `src/lib/annotate/`, register it in `src/lib/annotate/index.ts`. Each annotator receives an
 `AnnotatorContext` (buffer, text, progress callback) and returns `AnnotatorResult` (file kind + annotations).
+
+## Live deployment
+
+Hosted on Vercel (SUTHARA team): https://autonomous-data-annotator.vercel.app
 
 ## Notes
 

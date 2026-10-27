@@ -2,7 +2,10 @@ import { DatabaseSync } from "node:sqlite";
 import { mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
-const DB_PATH = resolve(/*turbopackIgnore: true*/ process.cwd(), process.env.DATABASE_PATH || "./data/dev.db");
+const BASE_DIR = process.env.VERCEL ? "/tmp/data" : resolve(/*turbopackIgnore: true*/ process.cwd(), "data");
+const DB_PATH = process.env.DATABASE_PATH
+  ? resolve(/*turbopackIgnore: true*/ process.env.DATABASE_PATH)
+  : resolve(/*turbopackIgnore: true*/ BASE_DIR, "dev.db");
 mkdirSync(dirname(DB_PATH), { recursive: true });
 
 const db = new DatabaseSync(DB_PATH);

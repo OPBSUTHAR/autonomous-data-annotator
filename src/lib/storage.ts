@@ -2,7 +2,8 @@ import { mkdirSync } from "node:fs";
 import { resolve, join, extname } from "node:path";
 import { nanoid } from "nanoid";
 
-const UPLOAD_DIR = resolve(/*turbopackIgnore: true*/ process.cwd(), "data", "uploads");
+const BASE_DIR = process.env.VERCEL ? "/tmp/data" : resolve(/*turbopackIgnore: true*/ process.cwd(), "data");
+const UPLOAD_DIR = resolve(/*turbopackIgnore: true*/ BASE_DIR, "uploads");
 mkdirSync(UPLOAD_DIR, { recursive: true });
 
 export function uploadPath(id: string, name: string) {

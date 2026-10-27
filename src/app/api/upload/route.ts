@@ -25,8 +25,7 @@ export async function POST(req: Request) {
     files.create({ id, projectId, name: f.name, mimeType: f.type || "application/octet-stream", size: f.size, path });
     jobs.create({ id: nanoid(), fileId: id });
     results.push({ id, name: f.name, size: f.size });
-    // fire and forget
-    void processFile(id);
+    await processFile(id);
   }
   return NextResponse.json({ files: results }, { status: 201 });
 }
